@@ -38,8 +38,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EAnimationType anim_state;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	//EAnimationType anim_state;
 protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = WizardSettings)

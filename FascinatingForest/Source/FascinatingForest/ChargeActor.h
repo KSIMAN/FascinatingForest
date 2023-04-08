@@ -17,7 +17,7 @@ public:
 	AChargeActor();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		UParticleSystemComponent* part;
+		UParticleSystemComponent * part;
 	UFUNCTION()
 		void MoveToPoint();
 	UFUNCTION()

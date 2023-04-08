@@ -46,7 +46,7 @@ AFascinatingForestCharacter::AFascinatingForestCharacter()
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
-	anim_state = EAnimationType::Stand;
+	//anim_state = EAnimationType::Stand;
 	is_charming = false;
 }
 
@@ -124,11 +124,7 @@ void AFascinatingForestCharacter::MoveForward(float Value)
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, Value);
-		anim_state = EAnimationType::Walk;
-	}
-	else {
-		if (!is_charming)
-			anim_state = EAnimationType::Stand;
+		//anim_state = EAnimationType::Walk;
 	}
 }
 
@@ -144,9 +140,6 @@ void AFascinatingForestCharacter::MoveRight(float Value)
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
-		anim_state = EAnimationType::Walk;
-	}else {
-		if (!is_charming)
-			anim_state = EAnimationType::Stand;
+		//anim_state = EAnimationType::Walk;
 	}
 }
