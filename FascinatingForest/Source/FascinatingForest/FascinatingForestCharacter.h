@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Misc/ScopeLock.h"
+#include "BaseWidget.h"
 #include <mutex>
 #include "FascinatingForestCharacter.generated.h"
 
@@ -42,6 +43,35 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	EAnimationType anim_state;
 
+	//Stamina info
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stamina)
+		float health;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stamina)
+		float max_health;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stamina)
+		float mana;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stamina)
+		float damage;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stamina)
+		UBaseWidget* Base_Widget_ref;
+	UFUNCTION()
+		void recieveDamage(float damage);
+	UFUNCTION()
+		bool isAlive();
+	UFUNCTION()
+		void Death();
+	UFUNCTION()
+		bool canCharm(float need_mana);
+
+
+	//Spelling
+	UFUNCTION()
+		void MakeChangeSpell();
+	UFUNCTION()
+		void MakeHitSpell();
+
+
 protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = WizardSettings)
@@ -52,23 +82,12 @@ protected:
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();
 
-	/** Called for forwards/backward input */
 	void MoveForward(float Value);
 
-	/** Called for side to side input */
 	void MoveRight(float Value);
 
-
-	/** 
-	 * Called via input to turn at a given rate. 
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
 	void TurnAtRate(float Rate);
 
-	/**
-	 * Called via input to turn look up/down at a given rate. 
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
 	void LookUpAtRate(float Rate);
 
 	/** Handler for when a touch input begins. */
@@ -82,6 +101,8 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
 	virtual void Tick(float deltaTime) override;
+
+	virtual void BeginPlay() override;
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }

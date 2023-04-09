@@ -43,11 +43,39 @@ AFascinatingForestCharacter::AFascinatingForestCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
-	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
-	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
-
 	anim_state = EAnimationType::Stand;
 	is_charming = false;
+	health = 100;
+	max_health = 100;
+	mana = 200;
+	damage = 15;
+
+}
+
+void AFascinatingForestCharacter::Tick(float deltaTime)
+{
+	if (GetVelocity().IsZero() && !is_charming)
+	{
+		anim_mutex.lock();
+		anim_state = EAnimationType::Stand;
+		anim_mutex.unlock();
+	}
+}
+
+void AFascinatingForestCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	FStringClassReference MyWidgetClassRef(TEXT("/Game/Widgets/BaseWidget.BaseWidget_C"));
+	if (UClass* MyWidgetClass = MyWidgetClassRef.TryLoadClass<UUserWidget>())
+	{
+		UUserWidget* BaseHUDBP_ref;
+		BaseHUDBP_ref = CreateWidget<UUserWidget>(GetWorld(), MyWidgetClass);
+		Base_Widget_ref = Cast<UBaseWidget>(BaseHUDBP_ref);
+		if (Base_Widget_ref != nullptr)
+			Base_Widget_ref->AddToViewport(10);
+		Base_Widget_ref->UpdateAllParams(health, mana, max_health);
+
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -81,14 +109,38 @@ void AFascinatingForestCharacter::SetupPlayerInputComponent(class UInputComponen
 }
 
 
+void AFascinatingForestCharacter::recieveDamage(float damage)
+{
+	health -= damage;
+	if (isAlive())
+		Base_Widget_ref->setHealth(health);
+	else Death();
+}
+
+bool AFascinatingForestCharacter::isAlive()
+{
+	if (health > 0)
+		return true;
+	else return false;
+}
+
+void AFascinatingForestCharacter::Death()
+{
+}
+
+bool AFascinatingForestCharacter::canCharm(float need_mana)
+{
+	if ((mana - need_mana) >= 0)
+		return true;
+	else return false;
+}
+
+void AFascinatingForestCharacter::MakeChangeSpell()
+{
+}
+
 void AFascinatingForestCharacter::OnResetVR()
 {
-	// If FascinatingForest is added to a project via 'Add Feature' in the Unreal Editor the dependency on HeadMountedDisplay in FascinatingForest.Build.cs is not automatically propagated
-	// and a linker error will result.
-	// You will need to either:
-	//		Add "HeadMountedDisplay" to [YourProject].Build.cs PublicDependencyModuleNames in order to build successfully (appropriate if supporting VR).
-	// or:
-	//		Comment or delete the call to ResetOrientationAndPosition below (appropriate if not supporting VR)
 	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 }
 
@@ -148,21 +200,5 @@ void AFascinatingForestCharacter::MoveRight(float Value)
 		anim_state = EAnimationType::Walk;
 		anim_mutex.unlock();
 	}
-	//else if (!is_charming)
-	//	{
-	//		anim_mutex.lock();
-	//		anim_state = EAnimationType::Stand;
-	//		anim_mutex.unlock();
-	//	}
 	
-}
-
-void AFascinatingForestCharacter::Tick(float deltaTime)
-{
-	if (GetVelocity().IsZero()&& !is_charming)
-	{
-		anim_mutex.lock();
-		anim_state = EAnimationType::Stand;
-		anim_mutex.unlock();
-	}
 }
