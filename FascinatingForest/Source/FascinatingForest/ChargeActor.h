@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/CapsuleComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "ChargeActor.generated.h"
 
@@ -18,16 +19,20 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UParticleSystemComponent * part;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		UCapsuleComponent* collider;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		UParticleSystemComponent* collision_part;
 	UFUNCTION()
 		void MoveToPoint();
 	UFUNCTION()
 		void MoveByDirection(FVector dir);
 	UFUNCTION()
 		void MoveByTrajectory();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

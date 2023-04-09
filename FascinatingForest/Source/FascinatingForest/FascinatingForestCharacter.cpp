@@ -46,7 +46,7 @@ AFascinatingForestCharacter::AFascinatingForestCharacter()
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
-	//anim_state = EAnimationType::Stand;
+	anim_state = EAnimationType::Stand;
 	is_charming = false;
 }
 
@@ -60,8 +60,9 @@ void AFascinatingForestCharacter::SetupPlayerInputComponent(class UInputComponen
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &AFascinatingForestCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFascinatingForestCharacter::MoveRight);
+	PlayerInputComponent->BindAxis("MoveForward", this, &AFascinatingForestCharacter::MoveForward);
+
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
@@ -124,8 +125,11 @@ void AFascinatingForestCharacter::MoveForward(float Value)
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, Value);
-		//anim_state = EAnimationType::Walk;
+		anim_mutex.lock();
+		anim_state = EAnimationType::Walk;
+		anim_mutex.unlock();
 	}
+
 }
 
 void AFascinatingForestCharacter::MoveRight(float Value)
@@ -140,6 +144,25 @@ void AFascinatingForestCharacter::MoveRight(float Value)
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
-		//anim_state = EAnimationType::Walk;
+		anim_mutex.lock();
+		anim_state = EAnimationType::Walk;
+		anim_mutex.unlock();
+	}
+	//else if (!is_charming)
+	//	{
+	//		anim_mutex.lock();
+	//		anim_state = EAnimationType::Stand;
+	//		anim_mutex.unlock();
+	//	}
+	
+}
+
+void AFascinatingForestCharacter::Tick(float deltaTime)
+{
+	if (GetVelocity().IsZero()&& !is_charming)
+	{
+		anim_mutex.lock();
+		anim_state = EAnimationType::Stand;
+		anim_mutex.unlock();
 	}
 }

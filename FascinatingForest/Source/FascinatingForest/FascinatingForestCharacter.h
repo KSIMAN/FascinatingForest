@@ -4,7 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-
+#include "Misc/ScopeLock.h"
+#include <mutex>
 #include "FascinatingForestCharacter.generated.h"
 
 
@@ -38,13 +39,14 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//EAnimationType anim_state;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	EAnimationType anim_state;
+
 protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = WizardSettings)
 		bool is_charming;
-
+	std::mutex anim_mutex;
 	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = WizardSettings)
 	
 	/** Resets HMD orientation in VR. */
@@ -55,6 +57,7 @@ protected:
 
 	/** Called for side to side input */
 	void MoveRight(float Value);
+
 
 	/** 
 	 * Called via input to turn at a given rate. 
@@ -78,7 +81,7 @@ protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
-
+	virtual void Tick(float deltaTime) override;
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }

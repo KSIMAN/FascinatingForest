@@ -8,8 +8,13 @@ AChargeActor::AChargeActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	collider = CreateDefaultSubobject<UCapsuleComponent>("Collider");
 	part = CreateDefaultSubobject<UParticleSystemComponent>("Particles");
-	//SetLifeSpan(5);
+	collision_part = CreateDefaultSubobject<UParticleSystemComponent>("Collision Particles");
+	RootComponent = collider;
+	part->SetupAttachment(collider);
+	collision_part->SetupAttachment(collider);
+	collision_part->SetVisibility(false);
 
 }
 
@@ -37,7 +42,7 @@ void AChargeActor::BeginPlay()
 void AChargeActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//AddActorLocalOffset(FVector(0,0.2,0));
+	AddActorLocalOffset(FVector(0,3,0));
 
 }
 
