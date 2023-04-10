@@ -3,22 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ChargeActor.h"
-#include "ChangeChargeActor.generated.h"
+#include "CreatureCharacter.h"
+#include "FascinatingForestCharacter.h"
+#include "AngryCreatureCharacter.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FASCINATINGFOREST_API AChangeChargeActor : public AChargeActor
+class FASCINATINGFOREST_API AAngryCreatureCharacter : public ACreatureCharacter
 {
 	GENERATED_BODY()
 public:
-	AChangeChargeActor();
-
-	UFUNCTION()
-	void RandomFly();
+	AAngryCreatureCharacter();
 protected:
-
 	void OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor);
+	
 };

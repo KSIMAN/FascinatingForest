@@ -13,5 +13,9 @@ UCLASS()
 class FASCINATINGFOREST_API AHitChargeActor : public AChargeActor
 {
 	GENERATED_BODY()
+public:
+		AHitChargeActor();
+protected:
 	
+	void OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor);
 };

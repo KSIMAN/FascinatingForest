@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "ChangeChargeActor.h"
+#include "HitChargeActor.h"
 #include "Components/ArrowComponent.h"
 #include "Misc/ScopeLock.h"
 #include "Engine/SkeletalMeshSocket.h"
@@ -53,6 +54,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stamina)
 		float max_health;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stamina)
+		float max_mana;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stamina)
 		float mana;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stamina)
 		float damage;
@@ -61,18 +64,23 @@ public:
 	UFUNCTION()
 		void recieveDamage(float dam);
 	UFUNCTION()
+		void addMana(float man);
+	UFUNCTION()
 		bool isAlive();
 	UFUNCTION()
 		void Death();
 	UFUNCTION()
 		bool canCharm(float need_mana);
 
+	
 
 	//Spelling
 	UFUNCTION()
 		void MakeChangeSpell();
 	UFUNCTION()
 		void MakeHitSpell();
+	UFUNCTION()
+	void FillMana();
 
 
 protected:
@@ -80,7 +88,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = WizardSettings)
 		bool is_charming;
 	std::mutex anim_mutex;
-	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = WizardSettings)
+
+
 	
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();

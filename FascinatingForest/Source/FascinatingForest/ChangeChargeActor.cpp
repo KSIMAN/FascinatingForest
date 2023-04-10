@@ -6,25 +6,21 @@
 AChangeChargeActor::AChangeChargeActor()
 {
 	damage = 0;
+	OnActorBeginOverlap.AddDynamic(this, &AChangeChargeActor::OnOverlapBegin);
 }
 
-void AChangeChargeActor::FlyByDirection(FVector dir)
-{
-	FTimerDelegate TimerCallback;
-	TimerCallback.BindLambda([this, dir]
-		{
-			AddActorWorldOffset(dir * speed);
-		});
-	FTimerHandle Handle;
-	GetWorld()->GetTimerManager().SetTimer(Handle, TimerCallback, 0.05f, true);
-}
 void AChangeChargeActor::RandomFly()
 {
 
 }
-void AChangeChargeActor::OnOverlapBegin(AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AChangeChargeActor::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 {
+	part->DestroyComponent();
 	collision_part->SetVisibility(true);
+	if (Cast<ACreatureCharacter>(OtherActor) != nullptr)
+	{
+		
+	}
 	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 	Destroy();
 }

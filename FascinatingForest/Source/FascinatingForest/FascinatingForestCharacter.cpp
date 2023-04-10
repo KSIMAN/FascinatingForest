@@ -48,7 +48,8 @@ AFascinatingForestCharacter::AFascinatingForestCharacter()
 	is_charming = false;
 	health = 50;
 	max_health = 100;
-	mana = 100;
+	max_mana = 100;
+	mana = max_mana;
 	damage = 15;
 
 }
@@ -63,6 +64,10 @@ void AFascinatingForestCharacter::Tick(float deltaTime)
 	}
 }
 
+void AFascinatingForestCharacter::FillMana()
+{
+	addMana(2);
+}
 void AFascinatingForestCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -77,6 +82,13 @@ void AFascinatingForestCharacter::BeginPlay()
 		Base_Widget_ref->UpdateAllParams(health, mana, max_health);
 
 	}
+	FTimerDelegate ManaCallback;
+	ManaCallback.BindLambda([this]
+		{
+			addMana(2);
+		});
+	FTimerHandle Handle;
+	GetWorld()->GetTimerManager().SetTimer(Handle, ManaCallback, 3.0f, true);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -93,6 +105,7 @@ void AFascinatingForestCharacter::SetupPlayerInputComponent(class UInputComponen
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFascinatingForestCharacter::MoveForward);
 	//Charming bindings
 	PlayerInputComponent->BindAction("ChangeCharm", IE_Pressed, this, &AFascinatingForestCharacter::MakeChangeSpell);
+	PlayerInputComponent->BindAction("HitCharm", IE_Pressed, this, &AFascinatingForestCharacter::MakeChangeSpell);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
@@ -114,6 +127,15 @@ void AFascinatingForestCharacter::recieveDamage(float dam)
 	if (isAlive())
 		Base_Widget_ref->setHealth(health);
 	else Death();
+}
+
+void AFascinatingForestCharacter::addMana(float man)
+{
+	mana += man;
+	if (mana > max_mana) //max_mana not realized in Widget ADD it pliz
+		mana = max_mana;
+	Base_Widget_ref->setMana(mana);
+
 }
 
 bool AFascinatingForestCharacter::isAlive()
@@ -157,7 +179,7 @@ void AFascinatingForestCharacter::MakeChangeSpell()
 
 		FTransform* pos = new FTransform(GetActorQuat() , loc, FVector(1, 1, 1));
 		AChangeChargeActor * char_actor = Cast<AChangeChargeActor>(GetWorld()->SpawnActor(MyChargeClass, pos));
-		char_actor->FlyByDirection(GetArrowComponent()->GetForwardVector());
+		char_actor->MoveByDirection(GetArrowComponent()->GetForwardVector());
 		
 		delete pos;
 	}	
@@ -179,17 +201,18 @@ void AFascinatingForestCharacter::MakeHitSpell()
 	mana -= 10;
 	Base_Widget_ref->setMana(mana);
 
-	FStringClassReference MyChargeClassRef(TEXT("/Game/Blueprints/ChangeChargeActorBP.ChangeChargeActorBP_C"));
-	if (UClass* MyChargeClass = MyChargeClassRef.TryLoadClass<AChangeChargeActor>())
+	FStringClassReference MyChargeClassRef(TEXT("/Game/Blueprints/HitChargeActorBP.HitChargeActorBP_C"));
+	if (UClass* MyChargeClass = MyChargeClassRef.TryLoadClass<AHitChargeActor>())
 	{
 		FVector loc = GetMesh()->GetSocketByName(FName("RHSocket"))->GetSocketLocation(GetMesh());
 		FTransform* pos = new FTransform(GetActorQuat(), loc , FVector(1, 1, 1));
-		AChangeChargeActor* char_actor = Cast<AChangeChargeActor>(GetWorld()->SpawnActor(MyChargeClass, pos));
-		char_actor->FlyByDirection(GetArrowComponent()->GetForwardVector());
+		AHitChargeActor* char_actor = Cast<AHitChargeActor>(GetWorld()->SpawnActor(MyChargeClass, pos));
+		char_actor->MoveByDirection(GetArrowComponent()->GetForwardVector());
 
 		delete pos;
 	}
 }
+
 
 void AFascinatingForestCharacter::OnResetVR()
 {

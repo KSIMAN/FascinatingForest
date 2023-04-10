@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Components/CapsuleComponent.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "CreatureCharacter.h"
 #include "ChargeActor.generated.h"
 
 UCLASS()

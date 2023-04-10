@@ -16,6 +16,7 @@ AChargeActor::AChargeActor()
 	collision_part->SetupAttachment(collider);
 	collision_part->SetVisibility(false);
 	speed = 2.0f;
+	SetActorRotation(FRotator(0, 0, 90));
 
 }
 
@@ -25,7 +26,13 @@ void AChargeActor::MoveToPoint()
 
 void AChargeActor::MoveByDirection(FVector dir)
 {
-	AddActorLocalOffset(dir);
+	FTimerDelegate TimerCallback;
+	TimerCallback.BindLambda([this, dir]
+		{
+			AddActorLocalOffset(dir * speed);
+		});
+	FTimerHandle Handle;
+	GetWorld()->GetTimerManager().SetTimer(Handle, TimerCallback, 0.05f, true);
 }
 
 void AChargeActor::MoveByTrajectory()
