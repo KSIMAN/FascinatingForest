@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "ChangeChargeActor.h"
+#include "Components/ArrowComponent.h"
 #include "Misc/ScopeLock.h"
+#include "Engine/SkeletalMeshSocket.h"
 #include "BaseWidget.h"
 #include <mutex>
 #include "FascinatingForestCharacter.generated.h"
@@ -56,7 +59,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Stamina)
 		UBaseWidget* Base_Widget_ref;
 	UFUNCTION()
-		void recieveDamage(float damage);
+		void recieveDamage(float dam);
 	UFUNCTION()
 		bool isAlive();
 	UFUNCTION()

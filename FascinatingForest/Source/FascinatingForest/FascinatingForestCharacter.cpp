@@ -5,6 +5,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -45,9 +46,9 @@ AFascinatingForestCharacter::AFascinatingForestCharacter()
 
 	anim_state = EAnimationType::Stand;
 	is_charming = false;
-	health = 100;
+	health = 50;
 	max_health = 100;
-	mana = 200;
+	mana = 100;
 	damage = 15;
 
 }
@@ -90,7 +91,8 @@ void AFascinatingForestCharacter::SetupPlayerInputComponent(class UInputComponen
 
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFascinatingForestCharacter::MoveRight);
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFascinatingForestCharacter::MoveForward);
-
+	//Charming bindings
+	PlayerInputComponent->BindAction("ChangeCharm", IE_Pressed, this, &AFascinatingForestCharacter::MakeChangeSpell);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
@@ -103,15 +105,12 @@ void AFascinatingForestCharacter::SetupPlayerInputComponent(class UInputComponen
 	// handle touch devices
 	PlayerInputComponent->BindTouch(IE_Pressed, this, &AFascinatingForestCharacter::TouchStarted);
 	PlayerInputComponent->BindTouch(IE_Released, this, &AFascinatingForestCharacter::TouchStopped);
-
-	// VR headset functionality
-	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AFascinatingForestCharacter::OnResetVR);
 }
 
 
-void AFascinatingForestCharacter::recieveDamage(float damage)
+void AFascinatingForestCharacter::recieveDamage(float dam)
 {
-	health -= damage;
+	health -= dam;
 	if (isAlive())
 		Base_Widget_ref->setHealth(health);
 	else Death();
@@ -137,6 +136,59 @@ bool AFascinatingForestCharacter::canCharm(float need_mana)
 
 void AFascinatingForestCharacter::MakeChangeSpell()
 {
+	is_charming = true;
+	anim_state = EAnimationType::Hit;
+	FTimerDelegate TimerCallback;
+	TimerCallback.BindLambda([this]
+		{
+			is_charming = false;
+		});
+	FTimerHandle Handle;
+	GetWorld()->GetTimerManager().SetTimer(Handle, TimerCallback, 2.0f, false);
+	if (!canCharm(30))
+		return; // Low Mana
+	mana -= 10;
+	Base_Widget_ref->setMana(mana);
+
+	FStringClassReference MyChargeClassRef(TEXT("/Game/Blueprints/ChangeChargeActorBP.ChangeChargeActorBP_C"));
+	if (UClass* MyChargeClass = MyChargeClassRef.TryLoadClass<AChangeChargeActor>())
+	{
+		FVector loc = GetMesh()->GetSocketByName(FName("CHSocket"))->GetSocketLocation(GetMesh());
+
+		FTransform* pos = new FTransform(GetActorQuat() , loc, FVector(1, 1, 1));
+		AChangeChargeActor * char_actor = Cast<AChangeChargeActor>(GetWorld()->SpawnActor(MyChargeClass, pos));
+		char_actor->FlyByDirection(GetArrowComponent()->GetForwardVector());
+		
+		delete pos;
+	}	
+}
+
+void AFascinatingForestCharacter::MakeHitSpell()
+{
+	is_charming = true;
+	anim_state = EAnimationType::Hit;
+	FTimerDelegate TimerCallback;
+	TimerCallback.BindLambda([this]
+		{
+			is_charming = false;
+		});
+	FTimerHandle Handle;
+	GetWorld()->GetTimerManager().SetTimer(Handle, TimerCallback, 2.0f, false);
+	if (!canCharm(30))
+		return; // Low Mana
+	mana -= 10;
+	Base_Widget_ref->setMana(mana);
+
+	FStringClassReference MyChargeClassRef(TEXT("/Game/Blueprints/ChangeChargeActorBP.ChangeChargeActorBP_C"));
+	if (UClass* MyChargeClass = MyChargeClassRef.TryLoadClass<AChangeChargeActor>())
+	{
+		FVector loc = GetMesh()->GetSocketByName(FName("RHSocket"))->GetSocketLocation(GetMesh());
+		FTransform* pos = new FTransform(GetActorQuat(), loc , FVector(1, 1, 1));
+		AChangeChargeActor* char_actor = Cast<AChangeChargeActor>(GetWorld()->SpawnActor(MyChargeClass, pos));
+		char_actor->FlyByDirection(GetArrowComponent()->GetForwardVector());
+
+		delete pos;
+	}
 }
 
 void AFascinatingForestCharacter::OnResetVR()

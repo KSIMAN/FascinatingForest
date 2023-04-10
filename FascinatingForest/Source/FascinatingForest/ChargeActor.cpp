@@ -15,6 +15,7 @@ AChargeActor::AChargeActor()
 	part->SetupAttachment(collider);
 	collision_part->SetupAttachment(collider);
 	collision_part->SetVisibility(false);
+	speed = 2.0f;
 
 }
 

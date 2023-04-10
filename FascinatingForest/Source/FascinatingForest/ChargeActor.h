@@ -29,7 +29,8 @@ public:
 		void MoveByDirection(FVector dir);
 	UFUNCTION()
 		void MoveByTrajectory();
-
+	float speed;
+	int damage;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
