@@ -16,7 +16,6 @@ AChargeActor::AChargeActor()
 	collision_part->SetupAttachment(collider);
 	collision_part->SetVisibility(false);
 	speed = 2.0f;
-	SetActorRotation(FRotator(0, 0, 90));
 
 }
 
@@ -50,7 +49,7 @@ void AChargeActor::BeginPlay()
 void AChargeActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	AddActorLocalOffset(FVector(0,3,0));
+	
 
 }
 

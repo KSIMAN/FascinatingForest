@@ -17,6 +17,7 @@ class FASCINATINGFOREST_API AAngryCreatureCharacter : public ACreatureCharacter
 public:
 	AAngryCreatureCharacter();
 protected:
+	UFUNCTION()
 	void OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor);
 	
 };

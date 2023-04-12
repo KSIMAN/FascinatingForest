@@ -46,7 +46,7 @@ AFascinatingForestCharacter::AFascinatingForestCharacter()
 
 	anim_state = EAnimationType::Stand;
 	is_charming = false;
-	health = 50;
+	health = 100;
 	max_health = 100;
 	max_mana = 100;
 	mana = max_mana;
@@ -105,7 +105,7 @@ void AFascinatingForestCharacter::SetupPlayerInputComponent(class UInputComponen
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFascinatingForestCharacter::MoveForward);
 	//Charming bindings
 	PlayerInputComponent->BindAction("ChangeCharm", IE_Pressed, this, &AFascinatingForestCharacter::MakeChangeSpell);
-	PlayerInputComponent->BindAction("HitCharm", IE_Pressed, this, &AFascinatingForestCharacter::MakeChangeSpell);
+	PlayerInputComponent->BindAction("HitCharm", IE_Pressed, this, &AFascinatingForestCharacter::MakeHitSpell);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
@@ -147,6 +147,7 @@ bool AFascinatingForestCharacter::isAlive()
 
 void AFascinatingForestCharacter::Death()
 {
+	Destroy();
 }
 
 bool AFascinatingForestCharacter::canCharm(float need_mana)
@@ -175,7 +176,7 @@ void AFascinatingForestCharacter::MakeChangeSpell()
 	FStringClassReference MyChargeClassRef(TEXT("/Game/Blueprints/ChangeChargeActorBP.ChangeChargeActorBP_C"));
 	if (UClass* MyChargeClass = MyChargeClassRef.TryLoadClass<AChangeChargeActor>())
 	{
-		FVector loc = GetMesh()->GetSocketByName(FName("CHSocket"))->GetSocketLocation(GetMesh());
+		FVector loc = GetMesh()->GetSocketByName(FName("RHSocket"))->GetSocketLocation(GetMesh());
 
 		FTransform* pos = new FTransform(GetActorQuat() , loc, FVector(1, 1, 1));
 		AChangeChargeActor * char_actor = Cast<AChangeChargeActor>(GetWorld()->SpawnActor(MyChargeClass, pos));

@@ -18,9 +18,10 @@ void UBaseWidget::SetMaxHealth(int health)
 }
 void UBaseWidget::UpdateAllParams(float health, float mana, float m_health)
 {
+	SetMaxHealth(m_health);
 	setHealth(health);
 	setMana(mana);
-	SetMaxHealth(m_health);
+
 }
 float UBaseWidget::ConvertToPercents(float val, int max_val)
 {
