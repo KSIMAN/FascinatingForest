@@ -8,6 +8,8 @@ ACreatureCharacter::ACreatureCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	box = CreateDefaultSubobject<UBoxComponent>("Collider");
+	box->SetupAttachment(RootComponent);
 	a_state = EAnimationAnimalType::Stand;
 	health = 10;
 	damage = 0;
@@ -36,7 +38,7 @@ void ACreatureCharacter::Death()
 			Destroy();
 		});
 	FTimerHandle Handle;
-	GetWorld()->GetTimerManager().SetTimer(Handle, TimerCallback, 30.0f, false);
+	GetWorld()->GetTimerManager().SetTimer(Handle, TimerCallback, 5.0f, false);
 }
 
 // Called every frame

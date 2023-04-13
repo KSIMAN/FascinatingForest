@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Components/BoxComponent.h"
 #include "CreatureCharacter.generated.h"
 
 UENUM(BlueprintType)
@@ -23,6 +24,8 @@ public:
 	// Sets default values for this character's properties
 	ACreatureCharacter();
 	void recieveDamage(int dam); //make interface later
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UBoxComponent* box;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		EAnimationAnimalType a_state;
 protected:
@@ -32,6 +35,7 @@ protected:
 	int health;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int damage;
+
 	void Death();
 
 public:	

@@ -16,6 +16,6 @@ class FASCINATINGFOREST_API AHitChargeActor : public AChargeActor
 public:
 		AHitChargeActor();
 protected:
-	
+	UFUNCTION()
 	void OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor);
 };

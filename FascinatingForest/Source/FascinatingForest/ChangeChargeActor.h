@@ -21,6 +21,6 @@ public:
 	void RandomFly();
 	bool LoadCreatureBP(FSoftClassPath path, FTransform * actor_pos);
 protected:
-
+	UFUNCTION()
 	void OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor);
 };
