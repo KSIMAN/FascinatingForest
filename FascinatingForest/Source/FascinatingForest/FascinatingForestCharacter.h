@@ -46,7 +46,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	EAnimationType anim_state;
-
+	
 	//Stamina info
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stamina)

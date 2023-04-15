@@ -17,7 +17,7 @@ class FASCINATINGFOREST_API AChargeActor : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AChargeActor();
-
+	~AChargeActor();
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UParticleSystemComponent * part;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)

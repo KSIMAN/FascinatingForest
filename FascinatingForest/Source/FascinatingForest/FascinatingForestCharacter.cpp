@@ -180,6 +180,7 @@ void AFascinatingForestCharacter::MakeChangeSpell()
 
 		FTransform* pos = new FTransform(GetActorQuat() , loc, FVector(1, 1, 1));
 		AChangeChargeActor * char_actor = Cast<AChangeChargeActor>(GetWorld()->SpawnActor(MyChargeClass, pos));
+		if (char_actor != nullptr)
 		char_actor->MoveByDirection(GetArrowComponent()->GetForwardVector());
 		
 		delete pos;
@@ -206,8 +207,9 @@ void AFascinatingForestCharacter::MakeHitSpell()
 	if (UClass* MyChargeClass = MyChargeClassRef.TryLoadClass<AHitChargeActor>())
 	{
 		FVector loc = GetMesh()->GetSocketByName(FName("RHSocket"))->GetSocketLocation(GetMesh());
-		FTransform* pos = new FTransform(GetActorQuat(), loc , FVector(1, 1, 1));
+		FTransform* pos = new FTransform(GetActorRotation(), loc, FVector(1, 1, 1));
 		AHitChargeActor* char_actor = Cast<AHitChargeActor>(GetWorld()->SpawnActor(MyChargeClass, pos));
+		if(char_actor!=nullptr)
 		char_actor->MoveByDirection(GetArrowComponent()->GetForwardVector());
 
 		delete pos;
