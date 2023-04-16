@@ -28,6 +28,8 @@ public:
 		UBoxComponent* box;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		EAnimationAnimalType a_state;
+	UPROPERTY(EditAnywhere)
+	class UBehaviorTree* bh_tree;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
