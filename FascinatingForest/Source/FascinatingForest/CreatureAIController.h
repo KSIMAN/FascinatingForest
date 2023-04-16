@@ -22,12 +22,18 @@ class FASCINATINGFOREST_API ACreatureAIController : public AAIController
 	//for BlackBoard
 	UPROPERTY(EditDefaultsOnly)
 		FName character_key;
-
+	UPROPERTY(EditDefaultsOnly)
+		FName location_to_go_key;
 	virtual void OnPossess(APawn* InPawn) override;
 	
 
+
 public:
 	ACreatureAIController();
+
+	void setPlayerCaught(APawn* pawn);
+
+	void setLocationToGo(FVector loc);
 
 	FORCEINLINE UBlackboardComponent* GetBlackBoardComponent() const { return bboard_comp;  };
 };

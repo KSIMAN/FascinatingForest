@@ -10,6 +10,7 @@ ACreatureAIController::ACreatureAIController()
 	bboard_comp = CreateDefaultSubobject<UBlackboardComponent>("Black Board");
 
 	character_key = "Target";
+	location_to_go_key = "LocationToGo";
 }
 
 void ACreatureAIController::OnPossess(APawn* InPawn)
@@ -22,4 +23,19 @@ void ACreatureAIController::OnPossess(APawn* InPawn)
 		btree_comp->StartTree(*(creature->bh_tree));
 	}
 	
+}
+
+void ACreatureAIController::setPlayerCaught(APawn* pawn)
+{
+	if (!bboard_comp)
+		return;
+	bboard_comp->SetValueAsObject(character_key, pawn);
+
+}
+
+void ACreatureAIController::setLocationToGo(FVector loc)
+{
+	if (!bboard_comp)
+		return;
+	bboard_comp->SetValueAsVector(location_to_go_key, loc);
 }

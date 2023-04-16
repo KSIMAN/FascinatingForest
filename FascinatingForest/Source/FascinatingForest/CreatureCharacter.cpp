@@ -59,7 +59,7 @@ void ACreatureCharacter::onPlayerVisible(APawn* pawn)
 	ACreatureAIController* ai_ref = Cast<ACreatureAIController>(GetController());
 	if (!ai_ref)
 		return;
-
+	ai_ref->setPlayerCaught(pawn);
 
 }
 

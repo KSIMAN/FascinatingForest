@@ -46,7 +46,7 @@ protected:
 	void Death();
 	UFUNCTION()
 		void onPlayerVisible(APawn* pawn); //when player caugtht
-
+	enum MindState {KIND, NEUTRAL, ANGRY };
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
