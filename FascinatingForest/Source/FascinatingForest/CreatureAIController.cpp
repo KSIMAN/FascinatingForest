@@ -18,7 +18,8 @@ void ACreatureAIController::OnPossess(APawn* InPawn)
 	ACreatureCharacter * creature = Cast<ACreatureCharacter>(InPawn);
 	if (creature)
 	{
-
+		bboard_comp->InitializeBlackboard(*(creature->bh_tree->BlackboardAsset));
+		btree_comp->StartTree(*(creature->bh_tree));
 	}
-
+	
 }

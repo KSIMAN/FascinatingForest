@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Components/BoxComponent.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "Perception/PawnSensingComponent.h"
 #include "CreatureCharacter.generated.h"
 
 UENUM(BlueprintType)
@@ -30,6 +32,8 @@ public:
 		EAnimationAnimalType a_state;
 	UPROPERTY(EditAnywhere)
 	class UBehaviorTree* bh_tree;
+	UPROPERTY(EditAnywhere)
+		class UPawnSensingComponent * pawn_sensing;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -38,7 +42,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int damage;
 
+	UFUNCTION()
 	void Death();
+	UFUNCTION()
+		void onPlayerVisible(APawn* pawn); //when player caugtht
 
 public:	
 	// Called every frame

@@ -7,7 +7,6 @@
 #include "ChangeChargeActor.h"
 #include "HitChargeActor.h"
 #include "Components/ArrowComponent.h"
-#include "Misc/ScopeLock.h"
 #include "Engine/SkeletalMeshSocket.h"
 #include "BaseWidget.h"
 #include <mutex>

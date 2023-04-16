@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "CreatureCharacter.h"
 #include "AIController.h"
 #include "CreatureAIController.generated.h"
