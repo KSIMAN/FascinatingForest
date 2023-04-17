@@ -15,7 +15,7 @@ ACreatureAIController::ACreatureAIController()
 
 void ACreatureAIController::OnPossess(APawn* InPawn)
 {
-	Super::Possess(InPawn);
+	Super::OnPossess(InPawn);
 	ACreatureCharacter * creature = Cast<ACreatureCharacter>(InPawn);
 	if (creature)
 	{
