@@ -34,6 +34,8 @@ public:
 	class UBehaviorTree* bh_tree;
 	UPROPERTY(EditAnywhere)
 		class UPawnSensingComponent * pawn_sensing;
+	UFUNCTION()
+		int getDamage();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -33,6 +33,11 @@ void ACreatureCharacter::recieveDamage(int dam)
 		Death();
 }
 
+int ACreatureCharacter::getDamage()
+{
+	return damage;
+}
+
 // Called when the game starts or when spawned
 void ACreatureCharacter::BeginPlay()
 {

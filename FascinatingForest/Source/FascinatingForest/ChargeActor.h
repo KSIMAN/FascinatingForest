@@ -30,6 +30,8 @@ public:
 		void MoveByDirection(FVector dir);
 	UFUNCTION()
 		void MoveByTrajectory();
+	UFUNCTION()
+		void MoveForward();
 	float speed;
 	int damage;
 protected:

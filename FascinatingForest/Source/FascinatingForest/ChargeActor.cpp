@@ -45,6 +45,11 @@ void AChargeActor::MoveByTrajectory()
 {
 }
 
+void AChargeActor::MoveForward()
+{
+	AddActorLocalOffset(FVector(speed,0,0));
+}
+
 // Called when the game starts or when spawned
 void AChargeActor::BeginPlay()
 {
@@ -56,7 +61,7 @@ void AChargeActor::BeginPlay()
 void AChargeActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
+	MoveForward();
 
 }
 

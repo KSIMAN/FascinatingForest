@@ -79,7 +79,7 @@ void AFascinatingForestCharacter::BeginPlay()
 		Base_Widget_ref = Cast<UBaseWidget>(BaseHUDBP_ref);
 		if (Base_Widget_ref != nullptr)
 			Base_Widget_ref->AddToViewport(10);
-		Base_Widget_ref->UpdateAllParams(health, mana, max_health);
+		Base_Widget_ref->updateAllParams(health, mana, max_health);
 
 	}
 	FTimerDelegate ManaCallback;
@@ -209,8 +209,8 @@ void AFascinatingForestCharacter::MakeHitSpell()
 		FVector loc = GetMesh()->GetSocketByName(FName("RHSocket"))->GetSocketLocation(GetMesh());
 		FTransform* pos = new FTransform(GetActorRotation(), loc, FVector(1, 1, 1));
 		AHitChargeActor* char_actor = Cast<AHitChargeActor>(GetWorld()->SpawnActor(MyChargeClass, pos));
-		if(char_actor!=nullptr)
-		char_actor->MoveByDirection(GetArrowComponent()->GetForwardVector());
+		//if(char_actor!=nullptr)
+		//char_actor->MoveByDirection(GetArrowComponent()->GetForwardVector());
 
 		delete pos;
 	}

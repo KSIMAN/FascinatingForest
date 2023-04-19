@@ -20,9 +20,13 @@ public:
 	
 	void setMana(float mana);
 
-	void SetMaxHealth(int health);
+	void setMaxHealth(int health);
 
-	void UpdateAllParams(float health, float mana, float max_health);
+	void updateAllParams(float health, float mana, float max_health);
+
+	void setTimeLeft(int minutes, int seconds);
+
+	void setSheepCount(int count);
 protected:
 	UBaseWidget(const FObjectInitializer& ObjectInitializer);
 	virtual void NativeConstruct() override;
@@ -31,6 +35,10 @@ protected:
 		UProgressBar* health_bar;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 		UProgressBar* mana_bar;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+		UTextBlock* sheep_count;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+		UTextBlock* time_left;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int max_health;
 };
