@@ -13,6 +13,10 @@ class AFascinatingForestGameMode : public AGameModeBase
 
 public:
 	AFascinatingForestGameMode();
+	int time_left; //time in secs
+	void onGameOverEvent();
+	void onVictoryEvent();
+
 };
 
 

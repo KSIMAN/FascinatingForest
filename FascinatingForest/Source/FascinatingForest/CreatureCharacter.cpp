@@ -72,7 +72,9 @@ void ACreatureCharacter::onPlayerVisible(APawn* pawn)
 void ACreatureCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (GetVelocity().IsNearlyZero())
+		a_state = EAnimationAnimalType::Stand;
+	else a_state = EAnimationAnimalType::Walk;
 }
 
 // Called to bind functionality to input

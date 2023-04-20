@@ -18,8 +18,8 @@ void AHitChargeActor::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor
 	collision_part->SetVisibility(true);
 	if (Cast<ACreatureCharacter>(OtherActor) != nullptr)
 	{
-		//ACreatureCharacter* for_hit = Cast<ACreatureCharacter>(OtherActor);
-		//for_hit->recieveDamage(damage);
+		ACreatureCharacter* for_hit = Cast<ACreatureCharacter>(OtherActor);
+		for_hit->recieveDamage(damage);
 	}
 	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 	Destroy();

@@ -13,3 +13,12 @@ AFascinatingForestGameMode::AFascinatingForestGameMode()
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 }
+
+void AFascinatingForestGameMode::onGameOverEvent()
+{
+	
+}
+
+void AFascinatingForestGameMode::onVictoryEvent()
+{
+}

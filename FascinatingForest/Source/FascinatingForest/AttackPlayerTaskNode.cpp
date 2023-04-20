@@ -17,7 +17,7 @@ EBTNodeResult::Type UAttackPlayerTaskNode::ExecuteTask(UBehaviorTreeComponent& O
 		if (player_for_attack && controll_pawn)
 		{
 			player_for_attack->recieveDamage(controll_pawn->getDamage());
-			player_for_attack->GetCapsuleComponent()->AddForce(controll_pawn->GetActorForwardVector()*300);
+			player_for_attack->AddActorLocalOffset(controll_pawn->GetActorForwardVector()*3);
 		}
 			
 	}

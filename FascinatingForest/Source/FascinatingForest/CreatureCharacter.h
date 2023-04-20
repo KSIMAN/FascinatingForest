@@ -36,6 +36,9 @@ public:
 		class UPawnSensingComponent * pawn_sensing;
 	UFUNCTION()
 		int getDamage();
+	UPROPERTY(VisibleAnywhere)
+	EAnimationAnimalType anim_state;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -43,11 +46,12 @@ protected:
 	int health;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int damage;
-
+	
 	UFUNCTION()
 	void Death();
 	UFUNCTION()
 		void onPlayerVisible(APawn* pawn); //when player caugtht
+	
 	enum MindState {KIND, NEUTRAL, ANGRY };
 public:	
 	// Called every frame

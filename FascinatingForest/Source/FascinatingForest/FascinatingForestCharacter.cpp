@@ -209,9 +209,6 @@ void AFascinatingForestCharacter::MakeHitSpell()
 		FVector loc = GetMesh()->GetSocketByName(FName("RHSocket"))->GetSocketLocation(GetMesh());
 		FTransform* pos = new FTransform(GetActorRotation(), loc, FVector(1, 1, 1));
 		AHitChargeActor* char_actor = Cast<AHitChargeActor>(GetWorld()->SpawnActor(MyChargeClass, pos));
-		//if(char_actor!=nullptr)
-		//char_actor->MoveByDirection(GetArrowComponent()->GetForwardVector());
-
 		delete pos;
 	}
 }
