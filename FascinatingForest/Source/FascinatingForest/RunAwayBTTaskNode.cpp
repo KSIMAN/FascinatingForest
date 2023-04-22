@@ -16,9 +16,9 @@ EBTNodeResult::Type URunAwayBTTaskNode::ExecuteTask(UBehaviorTreeComponent& Owne
 		if (player_run_from)
 		{
 			FVector dir = player_run_from->GetActorForwardVector();
-			FVector location = ai_ref->GetPawn()->GetActorLocation() + dir * (50 + rand() % 90);
+			FVector location = ai_ref->GetPawn()->GetActorLocation() + dir * (120 + rand() % 300);
 			ai_ref->setLocationToGo(location);
-			ai_ref->MoveToLocation(location, -1.0f, true, false, false, false, 0, false);
+			ai_ref->MoveToLocation(location, -1.0f, true, true, false, false, 0, false);
 		}
 	}
 	return EBTNodeResult::Type();
