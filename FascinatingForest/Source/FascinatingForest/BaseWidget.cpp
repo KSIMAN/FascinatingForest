@@ -12,7 +12,6 @@ void UBaseWidget::setHealth(float health)
 void UBaseWidget::setMana(float mana)
 {
 	mana_bar->SetPercent(ConvertToPercents(mana, 100));
-	setSheepCount(666);
 }
 void UBaseWidget::setMaxHealth(int health)
 {
