@@ -168,7 +168,7 @@ void AFascinatingForestCharacter::MakeChangeSpell()
 		});
 	FTimerHandle Handle;
 	GetWorld()->GetTimerManager().SetTimer(Handle, TimerCallback, 2.0f, false);
-	if (!canCharm(30))
+	if (!canCharm(10))
 		return; // Low Mana
 	mana -= 10;
 	Base_Widget_ref->setMana(mana);
@@ -180,8 +180,6 @@ void AFascinatingForestCharacter::MakeChangeSpell()
 
 		FTransform* pos = new FTransform(GetActorQuat() , loc, FVector(1, 1, 1));
 		AChangeChargeActor * char_actor = Cast<AChangeChargeActor>(GetWorld()->SpawnActor(MyChargeClass, pos));
-		if (char_actor != nullptr)
-		char_actor->MoveByDirection(GetArrowComponent()->GetForwardVector());
 		
 		delete pos;
 	}	

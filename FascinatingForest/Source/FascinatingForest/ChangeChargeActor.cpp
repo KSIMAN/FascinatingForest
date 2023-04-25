@@ -10,6 +10,9 @@ AChangeChargeActor::AChangeChargeActor()
 	OnActorBeginOverlap.AddDynamic(this, &AChangeChargeActor::OnOverlapBegin);
 	creature_paths.Push(FStringClassReference("/Game/Blueprints/CrocodileBP.CrocodileBP_C"));
 	creature_paths.Push(FStringClassReference("/Game/Blueprints/DragonBP.DragonBP_C"));
+	creature_paths.Push(FStringClassReference("/Game/Blueprints/SheepCreatureBP.SheepCreatureBP_C"));
+	creature_paths.Push(FStringClassReference("/Game/Blueprints/BullCreatureBP.BullCreatureBP_C"));
+	
 
 }
 
@@ -37,7 +40,7 @@ void AChangeChargeActor::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherAc
 	{
 		ACreatureCharacter * old_char = Cast<ACreatureCharacter>(OtherActor);
 		FTransform trans = old_char->GetActorTransform();;
-		LoadCreatureBP(creature_paths[rand() % creature_paths.Num()], &trans);
+		LoadCreatureBP(creature_paths[rand() % creature_paths.Num() - 1], &trans);
 		old_char->Destroy();
 	}
 	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);

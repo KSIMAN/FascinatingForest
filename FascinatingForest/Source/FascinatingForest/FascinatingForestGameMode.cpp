@@ -25,6 +25,7 @@ void AFascinatingForestGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	player = Cast<AFascinatingForestCharacter>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	if(player!=nullptr)
 	GetWorld()->GetTimerManager().SetTimer(timer_h, this, &AFascinatingForestGameMode::MainTimer, 1, true);
 
 }
