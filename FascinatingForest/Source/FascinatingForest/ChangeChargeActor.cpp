@@ -39,8 +39,8 @@ void AChangeChargeActor::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherAc
 	if (Cast<ACreatureCharacter>(OtherActor) != nullptr)
 	{
 		ACreatureCharacter * old_char = Cast<ACreatureCharacter>(OtherActor);
-		FTransform trans = old_char->GetActorTransform();;
-		LoadCreatureBP(creature_paths[rand() % creature_paths.Num() - 1], &trans);
+		FTransform trans = old_char->GetActorTransform();
+		LoadCreatureBP(creature_paths[rand() % (creature_paths.Num() - 1)], &trans);
 		old_char->Destroy();
 	}
 	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);

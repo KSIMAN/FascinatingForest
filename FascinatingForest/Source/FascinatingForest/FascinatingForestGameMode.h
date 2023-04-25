@@ -8,6 +8,21 @@
 #include "FascinatingForestGameMode.generated.h"
 
 UCLASS(minimalapi)
+class ASheepController : public AActor {
+	GENERATED_BODY()
+protected:
+	ASheepController(FVector sp_point) : spawn_point(sp_point)
+	{
+
+	};
+	FVector spawn_point;
+	float spawn_radius;
+	int min_actors;
+	int max_actors;
+
+
+};
+UCLASS(minimalapi)
 class AFascinatingForestGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
@@ -19,6 +34,7 @@ public:
 	void onVictoryEvent();
 	void addSheep();
 	void removeSheep();
+
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
