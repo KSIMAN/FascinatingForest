@@ -17,6 +17,7 @@ AFascinatingForestGameMode::AFascinatingForestGameMode()
 	min_sheeps = 1;
 	max_sheeps = 10;
 	seconds_left = 600;
+	onGameOverEvent();
 
 
 }
@@ -24,19 +25,27 @@ AFascinatingForestGameMode::AFascinatingForestGameMode()
 void AFascinatingForestGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	player = Cast<AFascinatingForestCharacter>(UGameplayStatics::GetActorOfClass(GetWorld(), DefaultPawnClass));
+	player = Cast<AFascinatingForestCharacter>(UGameplayStatics::GetActorOfClass(GetWorld(), AFascinatingForestCharacter::StaticClass()));
 	if (player == nullptr)
 		return;
-	GetWorld()->GetTimerManager().SetTimer(timer_h, this, &AFascinatingForestGameMode::MainTimer, 1, true);
+	
+	//GetWorld()->GetTimerManager().SetTimer(timer_h, this, &AFascinatingForestGameMode::MainTimer, 1, true);
 
 }
 void AFascinatingForestGameMode::onGameOverEvent()
 {
-	
+	SetPause(GetWorld()->GetFirstPlayerController());
+	UUserWidget* wid = createWidgetFromRef(TEXT("/Game/Widgets/GameOver.GameOver_C"));
+	if (wid != nullptr)
+		wid->AddToViewport(200);
 }
 
 void AFascinatingForestGameMode::onVictoryEvent()
 {
+	SetPause(GetWorld()->GetFirstPlayerController());
+	UUserWidget* wid = createWidgetFromRef(TEXT("/Game/Widgets/VictoryWidget.VictoryWidget_C"));
+	if (wid != nullptr)
+		wid->AddToViewport(200);
 }
 
 void AFascinatingForestGameMode::addSheep()
@@ -50,6 +59,18 @@ void AFascinatingForestGameMode::removeSheep()
 {
 	if(--sheeps < min_sheeps)
 	onGameOverEvent();
+}
+
+UUserWidget* AFascinatingForestGameMode::createWidgetFromRef(FString bp_ref)
+{
+	FStringClassReference MyWidgetClassRef = bp_ref;
+	if (UClass* MyWidgetClass = MyWidgetClassRef.TryLoadClass<UUserWidget>())
+	{
+		UUserWidget* widget;
+		widget = CreateWidget<UUserWidget>(GetWorld(), MyWidgetClass);
+		return widget;
+	}
+	return nullptr;
 }
 
 void AFascinatingForestGameMode::MainTimer()

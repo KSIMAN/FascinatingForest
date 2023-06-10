@@ -6,7 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "FascinatingForestCharacter.h"
 #include "FascinatingForestGameMode.generated.h"
-
+/*
 UCLASS(minimalapi)
 class ASheepController : public AActor {
 	GENERATED_BODY()
@@ -21,7 +21,7 @@ protected:
 	int max_actors;
 
 
-};
+};*/
 UCLASS(minimalapi)
 class AFascinatingForestGameMode : public AGameModeBase
 {
@@ -34,7 +34,8 @@ public:
 	void onVictoryEvent();
 	void addSheep();
 	void removeSheep();
-
+	
+	UUserWidget* createWidgetFromRef(FString bp_ref); //replace later
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)

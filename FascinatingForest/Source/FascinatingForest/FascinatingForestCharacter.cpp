@@ -7,6 +7,7 @@
 #include "Components/InputComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "FascinatingForestGameMode.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 
@@ -147,6 +148,8 @@ bool AFascinatingForestCharacter::isAlive()
 
 void AFascinatingForestCharacter::Death()
 {
+	AFascinatingForestGameMode* mode = Cast<AFascinatingForestGameMode>(GetWorld()->GetAuthGameMode());
+	mode->onGameOverEvent();
 	Destroy();
 }
 
